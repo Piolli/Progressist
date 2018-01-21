@@ -1,5 +1,6 @@
 package com.kamyshev.alexandr.presentation.mvp.projectslist
 
+import com.kamyshev.alexandr.domain.global.models.Project
 import com.kamyshev.alexandr.presentation.mvp.base.IView
 
 /**
@@ -7,17 +8,22 @@ import com.kamyshev.alexandr.presentation.mvp.base.IView
  */
 interface ProjectsListView : IView {
 
-    //Styles of dialogs
-    enum class MessageType { error, neutral, complete }
+
+    enum class MessageStyle { ERROR, NEUTRAL, COMPLETE }
 
     /**
-     * [type] set style of dialog
+     * [style] set style of dialog
      */
-    fun showMessage(message: String, type: MessageType = MessageType.neutral)
+    fun showMessage(message: String, style: MessageStyle = MessageStyle.NEUTRAL)
 
     /**
      * show dialog if [enable] = true
      * close dialog if [enable] = false
      */
     fun showProgressDialog(enable: Boolean)
+
+    /**
+     * Show projects in table on screen
+     */
+    fun showProjects(projects: List<Project>)
 }

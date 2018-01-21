@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.kamyshev.alexandr.presentation">
 
-    <application>
-        <activity android:name=".ui.ProjectsListActivity" android:theme="@style/Base.Theme.AppCompat.Light">
+    <application android:name=".MyTodoApplication">
+        <activity android:name=".ui.projectslist.ProjectsListActivity" android:theme="@style/Base.Theme.AppCompat.Light">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
