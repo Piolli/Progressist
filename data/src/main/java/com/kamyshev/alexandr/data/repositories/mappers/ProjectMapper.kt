@@ -9,7 +9,6 @@ import io.realm.RealmList
 object ProjectMapper : BaseMapper<Project, ProjectDbModel> {
 
     override fun map(from: Project): ProjectDbModel {
-        val subTasks: RealmList<SubTask> = RealmList()
         val tasks = from.tasks
         val tasksdb: RealmList<TaskDbModel> = RealmList()
 
@@ -25,7 +24,7 @@ object ProjectMapper : BaseMapper<Project, ProjectDbModel> {
         }
 
 
-        return ProjectDbModel(from.name, from.progress, tasksdb)
+        return ProjectDbModel(from.name, from.progress, tasksdb, from.bgColor)
     }
 
     fun toDb(from: ProjectDbModel) {

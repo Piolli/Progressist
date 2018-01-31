@@ -27,13 +27,15 @@ class ProjectsListRepositoryImpl() : ProjectsListRepository {
         return Realm.getDefaultInstance()
                 .where(ProjectDbModel::class.java)
                 .equalTo("id", id)
-                .findFirst()?.toProject() ?: Project("", 0, arrayListOf())
+                .findFirst()?.toProject() ?: Project("", 0, arrayListOf(), "", 0)
     }
 
     override fun saveProject(project: Project) {
-        Realm.getDefaultInstance().executeTransaction {
-            it.copyToRealm(ProjectMapper.map(project))
-            Log.d(LOG, "Save project: $project")
+        Realm.getDefaultInstance().use {
+            it.executeTransaction {
+                it.insertOrUpdate(ProjectMapper.map(project))
+                Log.d(LOG, "Save project: $project")
+            }
         }
     }
 }

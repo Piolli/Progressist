@@ -26,4 +26,9 @@ interface ProjectsListView : IView {
      * Show projects in table on screen
      */
     fun showProjects(projects: List<Project>)
+
+    /**
+     * Set adapter for recycler view
+     */
+    fun setAdapter(adapter: ProjectListRecyclerViewAdapter)
 }

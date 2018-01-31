@@ -3,7 +3,7 @@
     package="com.kamyshev.alexandr.presentation">
 
     <application android:name=".MyTodoApplication">
-        <activity android:name=".ui.projectslist.ProjectsListActivity" android:theme="@style/Base.Theme.AppCompat.Light">
+        <activity android:name=".ui.projectslist.ProjectsListActivity" android:theme="@style/AppStyle">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

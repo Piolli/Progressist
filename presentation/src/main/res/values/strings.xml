@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">presentation</string>
+    <string name="project_count_completed_tasks">Выполнено %d из %d</string>
 </resources>

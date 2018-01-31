@@ -6,7 +6,9 @@ package com.kamyshev.alexandr.domain.global.models
 class Project(
         val name: String,
         val progress: Int,
-        val tasks: List<Task>
+        val tasks: List<Task>,
+        val key: String,
+        val bgColor: Int
 ) {
     /**
      * If completed tasks = all task,
@@ -16,6 +18,8 @@ class Project(
         get() = progress == tasks.size
 
     override fun toString(): String {
-        return "Project(name='$name', progress=$progress, tasks=$tasks)"
+        return "Project(name='$name', progress=$progress, tasks=$tasks, key='$key')"
     }
+
+
 }

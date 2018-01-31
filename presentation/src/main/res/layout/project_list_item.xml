@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#71CAFF"
+    android:theme="@style/ProjectListItem"
+    android:layout_margin="4dp"
+    android:maxHeight="300dp"
+    android:clickable="true"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/projectTitleView"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:gravity="center"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:paddingTop="18dp"
+        android:textColor="@android:color/white"
+        android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
+        app:autoSizeTextType="uniform"
+        app:autoSizeMaxTextSize="32sp"
+        tools:text="Разработка дизайна приложения" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/projectCountCompleteTasks"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/projectTitleView"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:paddingBottom="16dp"
+        android:paddingTop="8dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textSize="18sp"
+        tools:text="выполнено 5 задач из 10" />
+
+    <ProgressBar
+        android:id="@+id/projectProgressBar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_below="@id/projectCountCompleteTasks"
+        android:max="100"
+        android:progress="15"
+        android:progressDrawable="@drawable/progress_bar_bg" />
+</RelativeLayout>

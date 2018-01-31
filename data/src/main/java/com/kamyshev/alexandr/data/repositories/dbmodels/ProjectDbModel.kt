@@ -13,13 +13,14 @@ import java.util.*
 open class ProjectDbModel(
         var name: String = "",
         var progress: Int = 0,
-        var tasks: RealmList<TaskDbModel> = RealmList()
+        var tasks: RealmList<TaskDbModel> = RealmList(),
+        var bgColor: Int = 0
 ): RealmObject() {
 
-    @PrimaryKey var id: Long = UUID.randomUUID().variant().toLong()
+    @PrimaryKey var key: String = UUID.randomUUID().toString()
 
     fun toProject(): Project {
-        return Project(name, progress, TaskDbModelMapper.map(tasks))
+        return Project(name, progress, TaskDbModelMapper.map(tasks), key, bgColor)
     }
 
     /**
