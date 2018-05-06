@@ -11,30 +11,47 @@ import io.realm.Realm
 /**
  * Created by alexandr on 19.01.18.
  */
-class ProjectsListRepositoryImpl() : ProjectsListRepository {
+class ProjectsListRepositoryImpl : ProjectsListRepository {
     val LOG = this.javaClass.simpleName
 
     override fun getProjects(): List<Project> {
 
-        val projects = Realm.getDefaultInstance().where(ProjectDbModel::class.java).findAll()
-        val listProjects = arrayListOf<Project>()
-        projects.forEach { listProjects.add(it.toProject()) }
-        Log.d(LOG, "Get projects: $projects")
-        return listProjects
+        Realm.getDefaultInstance().use {
+            val projects = it
+                    .where(ProjectDbModel::class.java)
+                    .findAll()
+            val listProjects = arrayListOf<Project>()
+            projects.forEach { listProjects.add(it.toProject()) }
+            Log.d(LOG, "Get projects: $projects")
+            return listProjects
+        }
     }
 
-    override fun getProjectByID(id: Int): Project {
-        return Realm.getDefaultInstance()
-                .where(ProjectDbModel::class.java)
-                .equalTo("id", id)
-                .findFirst()?.toProject() ?: Project("", 0, arrayListOf(), "", 0)
+    override fun getProjectByID(key: String): Project {
+        val projects = getProjects()
+        for (project in projects) {
+            if (project.key == key)
+                return project
+        }
+        return Project("NULL", 0, arrayListOf(), bgColor = 0)
     }
 
-    override fun saveProject(project: Project) {
+    override fun addProject(project: Project) {
         Realm.getDefaultInstance().use {
             it.executeTransaction {
                 it.insertOrUpdate(ProjectMapper.map(project))
                 Log.d(LOG, "Save project: $project")
+            }
+        }
+    }
+
+    override fun deleteProjectByID(key: String) {
+        Realm.getDefaultInstance().use {
+            it.executeTransaction {
+                it.where(ProjectDbModel::class.java)
+                        .equalTo("key", key)
+                        .findFirst()
+                        ?.deleteFromRealm()
             }
         }
     }

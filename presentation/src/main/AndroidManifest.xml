@@ -3,12 +3,21 @@
     package="com.kamyshev.alexandr.presentation">
 
     <application android:name=".MyTodoApplication">
-        <activity android:name=".ui.projectslist.ProjectsListActivity" android:theme="@style/AppStyle">
+        <activity
+            android:name=".ui.projectslist.ProjectsListActivity"
+            android:theme="@style/AppStyle">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.taskslist.TasksListActivity"
+            android:theme="@style/AppStyle" />
+        <activity android:name=".ui.taskslist.TasksListActivityFragment"
+            android:theme="@style/AppStyle"
+            ></activity>
     </application>
 
 </manifest>

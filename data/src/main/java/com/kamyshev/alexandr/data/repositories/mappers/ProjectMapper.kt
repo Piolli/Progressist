@@ -23,8 +23,9 @@ object ProjectMapper : BaseMapper<Project, ProjectDbModel> {
             tasksdb.add(TaskDbModel(it.name, it.progress, subtasksdb))
         }
 
-
-        return ProjectDbModel(from.name, from.progress, tasksdb, from.bgColor)
+        val projectDb = ProjectDbModel(from.name, from.progress, tasksdb, from.bgColor)
+        projectDb.key = from.key
+        return projectDb
     }
 
     fun toDb(from: ProjectDbModel) {

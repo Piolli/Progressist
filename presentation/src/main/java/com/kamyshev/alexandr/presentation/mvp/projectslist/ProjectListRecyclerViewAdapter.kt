@@ -13,13 +13,16 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.kamyshev.alexandr.domain.global.models.Project
 import com.kamyshev.alexandr.presentation.R
+import com.kamyshev.alexandr.presentation.ui.taskslist.TasksListFragment
+import com.kamyshev.alexandr.presentation.utils.DialogFactory
+import io.realm.Realm
 import kotlinx.android.synthetic.main.project_list_item.view.*
 import java.util.*
 
 /**
  * Created by alexandr on 27.01.18.
  */
-class ProjectListRecyclerViewAdapter(val collection: List<Project>)
+class ProjectListRecyclerViewAdapter(val collection: MutableList<Project>, val onDeleteProject: onDeleteProject, val onClickListener: OnClickProjectListener)
     : RecyclerView.Adapter<ProjectListRecyclerViewAdapter.ProjectViewHolder>() {
 
     override fun getItemCount(): Int {
@@ -34,7 +37,13 @@ class ProjectListRecyclerViewAdapter(val collection: List<Project>)
         holder?.bind(collection[position])
     }
 
-    class ProjectViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+    fun addProject(project: Project) {
+        collection.add(0, project)
+        notifyItemInserted(0)
+    }
+
+
+    inner class ProjectViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         fun bind(project: Project) {
             project.let {
                 view.projectTitleView.text = it.name
@@ -43,8 +52,23 @@ class ProjectListRecyclerViewAdapter(val collection: List<Project>)
                 view.projectProgressBar.progress = Random().nextInt(100) + 1
                 view.setBackgroundColor(it.bgColor)
     //                view.projectProgressBar.progress = 100 * it.progress / (if(it.tasks.size == 0) 1 else it.tasks.size)
-                view.setOnClickListener { Toast.makeText(view.context, "Click item", Toast.LENGTH_SHORT).show() }
+                view.setOnClickListener {
+                    onClickListener.onClickProject(project.key)
+                }
+                view.setOnLongClickListener {
+                    DialogFactory.dialog2(view.context, "Удалить проект?", "Да", "Отмена") {
+                        if(it == DialogFactory.ANSWER.POSITIVE) {
+                            onDeleteProject.onDelete(project.key)
+                            collection.remove(project)
+                            notifyItemRemoved(adapterPosition)
+                        }
+                    }
+
+
+                    true
+                }
             }
         }
     }
+
 }

@@ -9,8 +9,10 @@ interface ProjectsListRepository {
 
     fun getProjects(): List<Project>
 
-    fun getProjectByID(id: Int): Project
+    fun getProjectByID(key: String): Project
 
-    fun saveProject(project: Project)
+    fun addProject(project: Project)
+
+    fun deleteProjectByID(key: String)
 
 }

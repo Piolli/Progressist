@@ -1,7 +1,5 @@
 package com.kamyshev.alexandr.presentation;
 
-import android.content.Context;
-import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.kamyshev.alexandr.data.repositories.ProjectsListRepositoryImpl;
@@ -14,8 +12,6 @@ import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import io.realm.Realm;
 
 import static org.junit.Assert.*;
 
@@ -37,7 +33,7 @@ public class ExampleInstrumentedTest {
         subtaskList.add(new SubTask("SubTask", true));
         taskList.add(new Task("First part", 10, subtaskList));
 
-        new ProjectsListRepositoryImpl().saveProject(new Project("Disign", 10, taskList));
+        new ProjectsListRepositoryImpl().addProject(new Project("Disign", 10, taskList));
 
         List<Project> projects = new ProjectsListRepositoryImpl().getProjects();
         assertEquals(projects.get(0).getName(), "Disign");

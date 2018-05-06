@@ -1,5 +1,7 @@
 package com.kamyshev.alexandr.domain.global.models
 
+import java.util.*
+
 /**
  * Created by alexandr on 19.01.18.
  */
@@ -7,7 +9,7 @@ class Project(
         val name: String,
         val progress: Int,
         val tasks: List<Task>,
-        val key: String,
+        val key: String = UUID.randomUUID().toString(),
         val bgColor: Int
 ) {
     /**

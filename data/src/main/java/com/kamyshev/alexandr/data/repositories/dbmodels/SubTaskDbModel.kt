@@ -1,5 +1,7 @@
 package com.kamyshev.alexandr.domain.global.models
 
+import android.os.Parcel
+import android.os.Parcelable
 import io.realm.RealmModel
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey

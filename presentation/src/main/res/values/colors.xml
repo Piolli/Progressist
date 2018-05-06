@@ -2,4 +2,8 @@
 <resources>
     <color name="activities_bg_color">#f2f2f2</color>
     <color name="progress_bar_progress_color">#2ec149</color>
+
+    <color name="toast_error_color">#d44348</color>
+    <color name="toast_neutral_color">#35a9df</color>
+    <color name="toast_complete_color">#2db646</color>
 </resources>

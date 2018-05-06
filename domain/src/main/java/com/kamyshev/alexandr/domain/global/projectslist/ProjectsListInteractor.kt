@@ -6,11 +6,14 @@ import com.kamyshev.alexandr.domain.global.repositories.ProjectsListRepository
 /**
  * Created by alexandr on 20.01.18.
  */
-class ProjectsListInteractor(val projectsListRepository: ProjectsListRepository) {
+class ProjectsListInteractor(val projectsListRepository: ProjectsListRepository): ProjectsListRepository {
 
-    fun getProjects() = projectsListRepository.getProjects()
+    override fun getProjects() = projectsListRepository.getProjects().reversed()
 
-    fun getProjectByID(id: Int) = projectsListRepository.getProjectByID(id)
+    override fun getProjectByID(key: String) = projectsListRepository.getProjectByID(key)
 
-    fun saveProject(project: Project) = projectsListRepository.saveProject(project)
+    override fun addProject(project: Project) = projectsListRepository.addProject(project)
+
+    override fun deleteProjectByID(key: String) = projectsListRepository.deleteProjectByID(key)
+
 }
