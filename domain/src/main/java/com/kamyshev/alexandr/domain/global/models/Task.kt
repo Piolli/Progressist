@@ -6,14 +6,24 @@ package com.kamyshev.alexandr.domain.global.models
 class Task (
         val name: String,
         val progress: Int,
-        val subTasks: List<SubTask>
+        var subTasks: List<SubTask>
 ) {
     /**
      * If complete tasks = all task,
      * then this task is complete
      */
     val isComplete
-        get() = progress == subTasks.size
+        get() =
+            if(subTasks.isNotEmpty())
+                progressCount == subTasks.size
+            else false
+
+    /**
+     * Count sub tasks which is completed
+     */
+    val progressCount: Int
+        get() = subTasks.count { it.isComplete }
+
 
     override fun toString(): String {
         return "Task(name='$name', progress=$progress, subTasks=$subTasks)"

@@ -19,8 +19,15 @@ class Project(
     val isComplete
         get() = progress == tasks.size
 
+    /**
+     * Count tasks which is completed
+     */
+    val progressCount: Int
+        get() = tasks.count { it.isComplete }
+
+
     override fun toString(): String {
-        return "Project(name='$name', progress=$progress, tasks=$tasks, key='$key')"
+        return "Project(name='$name', progressCount=$progressCount, tasks=$tasks, key='$key')"
     }
 
 

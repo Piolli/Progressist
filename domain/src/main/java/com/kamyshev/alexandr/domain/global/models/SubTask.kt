@@ -6,7 +6,7 @@ package com.kamyshev.alexandr.domain.global.models
  */
 class SubTask (
         val name: String,
-        val isComplete: Boolean
+        var isComplete: Boolean
 
 
 ) {

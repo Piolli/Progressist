@@ -48,10 +48,11 @@ class ProjectListRecyclerViewAdapter(val collection: MutableList<Project>, val o
             project.let {
                 view.projectTitleView.text = it.name
                 view.projectCountCompleteTasks.text =
-                        view.resources.getString(R.string.project_count_completed_tasks, it.progress, it.tasks.size)
-                view.projectProgressBar.progress = Random().nextInt(100) + 1
+                        view.resources.getString(R.string.project_count_completed_tasks, it.progressCount, it.tasks.size)
+                view.projectProgressBar.progress = it.progress
                 view.setBackgroundColor(it.bgColor)
-    //                view.projectProgressBar.progress = 100 * it.progress / (if(it.tasks.size == 0) 1 else it.tasks.size)
+                view.projectProgressBar.max = it.tasks.size
+                view.projectProgressBar.progress = it.progressCount
                 view.setOnClickListener {
                     onClickListener.onClickProject(project.key)
                 }

@@ -30,9 +30,15 @@ import nl.dionsegijn.steppertouch.StepperTouch
 import android.support.v7.widget.helper.ItemTouchHelper.Callback.makeMovementFlags
 import android.support.v7.widget.helper.ItemTouchHelper.LEFT
 import android.support.v7.widget.helper.ItemTouchHelper.RIGHT
+import com.kamyshev.alexandr.domain.global.models.SubTask
+import kotlinx.android.synthetic.main.dialog_create_sub_task.view.*
 
 
-class TasksListFragment : Fragment(), TasksListView, TasksListAdapter.OnDeleteTask {
+class TasksListFragment :
+        Fragment(), TasksListView, TasksListAdapter.OnDeleteTask,
+        TasksListAdapter.OnAddSubTask, SubTasksListAdapter.OnDeleteSubTask,
+        SubTasksListAdapter.OnChangeCheckedSubTask {
+
     lateinit var tasks: MutableList<Task>
     lateinit var projectKey: String
     lateinit var projectName: String
@@ -62,7 +68,7 @@ class TasksListFragment : Fragment(), TasksListView, TasksListAdapter.OnDeleteTa
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         Logger.d("$CLASS_NAME: onViewCreated()")
-        adapter = TasksListAdapter(tasks, this)
+        adapter = TasksListAdapter(tasks, this, this, this, this)
         presenter = TasksListPresenter(this, projectKey, TasksListInteractor(TasksListRepositoryImpl()), adapter)
         title_project_view.text = projectName
         initRecyclerView()
@@ -75,13 +81,25 @@ class TasksListFragment : Fragment(), TasksListView, TasksListAdapter.OnDeleteTa
         }
     }
 
+    //On Add sub task
+    override fun onClick(task: Task, subTask: SubTask) {
+        presenter.addSubTask(task, subTask)
+    }
+
+    override fun onDeleteSubTask(task: Task, subTask: SubTask) {
+        presenter.deleteSubTask(task, subTask)
+    }
+
     override fun scrollRecyclerViewToPosition(position: Int) {
         tasks_recycler_view.scrollToPosition(position)
     }
 
     override fun onDelete(task: Task) {
         presenter.deleteTasks(task)
+    }
 
+    override fun onChangeCheckedSubTask(task: Task, subTask: SubTask, isChecked: Boolean) {
+        presenter.setCheckedSubTask(task, subTask, projectKey, isChecked)
     }
 
     private fun createTaskDialog() {

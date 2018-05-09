@@ -25,7 +25,7 @@ import hugo.weaving.DebugLog
 import kotlinx.android.synthetic.main.activity_projects_list.*
 import kotlinx.android.synthetic.main.bottom_sheet_add_project.*
 
-
+//TODO("Refresh project status")
 class ProjectsListActivity : Activity(), ProjectsListView {
     val CLASS_NAME = this.javaClass.simpleName
 
