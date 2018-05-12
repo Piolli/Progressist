@@ -25,4 +25,8 @@ class TasksListInteractor(val repositoryImpl: TasksListRepository): TasksListRep
     override fun setCheckedSubTask(task: Task, subTask: SubTask, projectKey: String, isChecked: Boolean) {
         repositoryImpl.setCheckedSubTask(task, subTask, projectKey, isChecked)
     }
+
+    override fun updateTask(newTask: Task, oldTask: Task, projectKey: String) {
+        repositoryImpl.updateTask(newTask, oldTask, projectKey)
+    }
 }

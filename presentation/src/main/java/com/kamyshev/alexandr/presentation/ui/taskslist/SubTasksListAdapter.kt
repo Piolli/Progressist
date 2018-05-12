@@ -20,8 +20,8 @@ class SubTasksListAdapter(val task: Task,
 
     val subTasks = task.subTasks.toMutableList()
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): SubTaskViewHolder {
-        val view = LayoutInflater.from(parent?.context).inflate(R.layout.sub_task_item, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SubTaskViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.sub_task_item, parent, false)
         return SubTaskViewHolder(view)
     }
 
@@ -29,8 +29,8 @@ class SubTasksListAdapter(val task: Task,
         return subTasks.size
     }
 
-    override fun onBindViewHolder(holder: SubTaskViewHolder?, position: Int) {
-        holder?.bind(subTasks[position], holder?.adapterPosition ?: 0)
+    override fun onBindViewHolder(holder: SubTaskViewHolder, position: Int) {
+        holder.bind(subTasks[position], holder.adapterPosition)
     }
 
     inner class SubTaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

@@ -70,4 +70,16 @@ class TasksListRepositoryImpl : TasksListRepository {
             }
         }
     }
+
+    override fun updateTask(newTask: Task, oldTask: Task, projectKey: String) {
+        Realm.getDefaultInstance().use {
+            it.executeTransaction {
+                val project = it.where(ProjectDbModel::class.java)
+                        .equalTo("key", projectKey)
+                        .findFirst()
+                val dbTaskNew = project?.tasks?.find { it.name == oldTask.name }!!
+                dbTaskNew.name = newTask.name
+            }
+        }
+    }
 }

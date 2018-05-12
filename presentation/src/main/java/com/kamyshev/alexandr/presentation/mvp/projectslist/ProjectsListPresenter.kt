@@ -15,15 +15,15 @@ import hugo.weaving.DebugLog
  */
 class ProjectsListPresenter(override var view: ProjectsListView,
                             private val projectsListInteractor: ProjectsListInteractor)
-    : BasePresenter<ProjectsListView>, onDeleteProject, OnClickProjectListener {
+    : BasePresenter<ProjectsListView>, onDeleteProject, OnClickProjectListener, OnChangeProject {
 
     val CLASS_NAME = ProjectsListPresenter::class.java.simpleName
 
-    private lateinit var adapter: ProjectListRecyclerViewAdapter
+    lateinit var adapter: ProjectListRecyclerViewAdapter
 
     fun loadProjects() {
         val projects = projectsListInteractor.getProjects()
-        adapter = ProjectListRecyclerViewAdapter(projects.toMutableList(), this, this)
+        adapter = ProjectListRecyclerViewAdapter(projects.toMutableList(), this, this, this)
         view.setAdapter(adapter)
     }
 
@@ -33,6 +33,21 @@ class ProjectsListPresenter(override var view: ProjectsListView,
         view.scrollListProjectsToTop()
     }
 
+    fun getProjects() : MutableList<Project> {
+        return projectsListInteractor.getProjects().toMutableList()
+    }
+
+    fun refreshProjects() {
+        adapter.notifyDataSetChanged()
+    }
+
+    override fun onChangeProject(newProject: Project, oldProjectKey: String) {
+        projectsListInteractor.updateProject(newProject, oldProjectKey)
+        val dbProjectNew = projectsListInteractor.getProjectByID(oldProjectKey)
+        val projectPosition = adapter.collection.indexOfFirst { it.key == oldProjectKey }
+        adapter.collection.set(projectPosition, dbProjectNew)
+        adapter.notifyItemChanged(projectPosition)
+    }
 
     override fun onDelete(key: String) {
         projectsListInteractor.deleteProjectByID(key)
@@ -52,4 +67,8 @@ interface onDeleteProject {
 
 interface OnClickProjectListener {
     fun onClickProject(key: String)
+}
+
+interface OnChangeProject {
+    fun onChangeProject(newProject: Project, oldProjectKey: String)
 }

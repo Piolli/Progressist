@@ -9,6 +9,7 @@ import android.support.design.widget.BottomSheetDialog
 import android.support.design.widget.Snackbar
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.StaggeredGridLayoutManager
+import android.util.Log
 import android.widget.LinearLayout
 import com.kamyshev.alexandr.data.repositories.ProjectsListRepositoryImpl
 import com.kamyshev.alexandr.domain.global.models.Project
@@ -24,10 +25,14 @@ import com.orhanobut.logger.Logger
 import hugo.weaving.DebugLog
 import kotlinx.android.synthetic.main.activity_projects_list.*
 import kotlinx.android.synthetic.main.bottom_sheet_add_project.*
-
 //TODO("Refresh project status")
 class ProjectsListActivity : Activity(), ProjectsListView {
     val CLASS_NAME = this.javaClass.simpleName
+
+    companion object {
+        const val FRAGMENT_TASK_RESULT_ID = 0x1
+        const val EXTRA_IS_CHANGE_TASK_BOOLEAN = "change_tasks"
+    }
 
     private lateinit var presenter: ProjectsListPresenter
     private lateinit var dialog: BottomSheetDialog
@@ -58,14 +63,28 @@ class ProjectsListActivity : Activity(), ProjectsListView {
 
     }
 
-    @DebugLog
     override fun startActivityIntent(intent: Intent, className: Class<*>) {
-
         intent.setClass(this, className)
         val newIntent = Intent(this, TasksListActivityFragment::class.java)
         newIntent.putExtra(TasksListActivity.EXRTRA_PROJECT_KEY, intent.getStringExtra(TasksListActivity.EXRTRA_PROJECT_KEY))
-        startActivity(newIntent)
+        startActivityForResult(newIntent, FRAGMENT_TASK_RESULT_ID)
     }
+
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        Log.d("RESULT", "onActivityResult $requestCode, $resultCode")
+////        if(resultCode == RESULT_OK && requestCode == FRAGMENT_TASK_RESULT_ID) {
+////            presenter.loadProjects()
+////        }
+//    }
+
+    override fun onRestart() {
+        val projects = presenter.getProjects()
+        presenter.adapter.collection.clear()
+        presenter.adapter.collection.addAll(projects)
+        presenter.adapter.notifyDataSetChanged()
+        super.onRestart()
+    }
+
 
     private fun initCreateProjectFab() {
         create_new_task_fab.setOnClickListener {
@@ -125,6 +144,7 @@ class ProjectsListActivity : Activity(), ProjectsListView {
 
     override fun setAdapter(adapter: ProjectListRecyclerViewAdapter) {
         projectListRecyclerView.adapter = adapter
+        projectListRecyclerView.adapter.notifyDataSetChanged()
     }
 
     override fun showMessage(message: String, style: ProjectsListView.MessageStyle) {

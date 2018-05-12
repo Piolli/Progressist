@@ -55,4 +55,16 @@ class ProjectsListRepositoryImpl : ProjectsListRepository {
             }
         }
     }
+
+    override fun updateProject(newProject: Project, oldProjectKey: String) {
+        Realm.getDefaultInstance().use {
+            it.executeTransaction {
+                val dbproject = it.where(ProjectDbModel::class.java)
+                        .equalTo("key", oldProjectKey)
+                        .findFirst()
+                dbproject?.bgColor = newProject.bgColor
+                dbproject?.name = newProject.name
+            }
+        }
+    }
 }

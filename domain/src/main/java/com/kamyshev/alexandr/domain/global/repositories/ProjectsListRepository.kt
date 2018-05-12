@@ -15,4 +15,6 @@ interface ProjectsListRepository {
 
     fun deleteProjectByID(key: String)
 
+    fun updateProject(newProject: Project, oldProjectKey: String)
+
 }

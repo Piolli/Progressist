@@ -16,4 +16,5 @@ class ProjectsListInteractor(val projectsListRepository: ProjectsListRepository)
 
     override fun deleteProjectByID(key: String) = projectsListRepository.deleteProjectByID(key)
 
+    override fun updateProject(newProject: Project, oldProjectKey: String) = projectsListRepository.updateProject(newProject, oldProjectKey)
 }

@@ -27,6 +27,7 @@ class MyTodoApplication : Application() {
 
         Realm.init(this)
 
+
         Logger.addLogAdapter(AndroidLogAdapter())
 
         val config: RealmConfiguration = RealmConfiguration.Builder()
@@ -34,6 +35,7 @@ class MyTodoApplication : Application() {
                 .build()
 
         Realm.setDefaultConfiguration(config)
+
         //Initial data for test app
 //        Realm.getDefaultInstance().use {
 //            it.executeTransaction {

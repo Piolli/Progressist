@@ -15,6 +15,7 @@
         android:id="@+id/bottom_sheet_down_layout"
         android:layout_width="match_parent"
         android:layout_height="194dp"
+        android:layout_gravity="center_horizontal|center_vertical"
 
         android:background="#286fb9"
         android:orientation="vertical">
@@ -24,6 +25,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
             android:layout_marginStart="16dp"
             android:ems="10"
             android:hint="Название проекта"
@@ -33,17 +35,19 @@
             android:textSize="14sp"
             app:backgroundTint="@android:color/white"
             app:layout_constraintBottom_toTopOf="@+id/bottom_sheet_desc_project"
-            app:layout_constraintEnd_toStartOf="@+id/guideline"
+            app:layout_constraintEnd_toStartOf="@+id/color_picker_project"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed" />
 
         <android.support.v7.widget.AppCompatEditText
+            android:visibility="gone"
             android:id="@+id/bottom_sheet_desc_project"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:ems="10"
@@ -54,8 +58,7 @@
             android:textSize="14sp"
             app:backgroundTint="@android:color/white"
             app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-            app:layout_constraintEnd_toStartOf="@+id/guideline"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintEnd_toStartOf="@+id/color_picker_project"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/bottom_sheet_project_name" />
 
@@ -63,23 +66,22 @@
             android:id="@+id/color_picker_project"
             android:layout_width="140dp"
             android:layout_height="178dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
             android:layout_marginTop="8dp"
             app:density="4"
             app:layout_constraintBottom_toTopOf="@+id/linearLayout"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/guideline"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0"
             app:wheelType="CIRCLE" />
 
-        <android.support.constraint.Guideline
-            android:id="@+id/guideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_begin="228dp" />
+        <!--<android.support.constraint.Guideline-->
+        <!--android:id="@+id/guideline"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="vertical"-->
+        <!--app:layout_constraintGuide_begin="234dp" />-->
 
         <LinearLayout
             android:id="@+id/linearLayout"
@@ -91,17 +93,21 @@
 
             <Button
                 android:id="@+id/bottom_sheet_add_project_button"
+                style="@style/Base.Widget.AppCompat.ActionButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Добавить" />
+                android:text="Добавить"
+                android:textColor="@android:color/white" />
 
             <Button
                 android:id="@+id/bottom_sheet_close_button"
+                style="@style/Base.Widget.AppCompat.ActionButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Закрыть" />
+                android:text="Закрыть"
+                android:textColor="@android:color/white" />
         </LinearLayout>
 
 

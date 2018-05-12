@@ -11,19 +11,22 @@ import android.view.ViewGroup
 import com.kamyshev.alexandr.domain.global.models.SubTask
 import com.kamyshev.alexandr.domain.global.models.Task
 import com.kamyshev.alexandr.presentation.R
+import com.kamyshev.alexandr.presentation.utils.DialogFactory
 import com.muddzdev.styleabletoastlibrary.StyleableToast
 import kotlinx.android.synthetic.main.dialog_create_sub_task.view.*
+import kotlinx.android.synthetic.main.dialog_create_task.view.*
 import kotlinx.android.synthetic.main.task_list_item.view.*
 
 class TasksListAdapter(val data: MutableList<Task>,
                        val onDeleteTask: OnDeleteTask,
                        val onAddSubTask: OnAddSubTask,
                        val onDeleteSubTask: SubTasksListAdapter.OnDeleteSubTask,
-                       val onChangeCheckedSubTask: SubTasksListAdapter.OnChangeCheckedSubTask) :
+                       val onChangeCheckedSubTask: SubTasksListAdapter.OnChangeCheckedSubTask,
+                       val onChangeTask: OnChangeTask) :
         RecyclerView.Adapter<TasksListAdapter.TaskViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): TaskViewHolder {
-        val view = LayoutInflater.from(parent?.context).inflate(R.layout.task_list_item, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.task_list_item, parent, false)
         return TaskViewHolder(view)
     }
 
@@ -31,8 +34,8 @@ class TasksListAdapter(val data: MutableList<Task>,
         return data.size
     }
 
-    override fun onBindViewHolder(holder: TaskViewHolder?, position: Int) {
-        holder?.bind(data[position], position)
+    override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
+        holder.bind(data[position], position)
     }
 
 
@@ -49,6 +52,47 @@ class TasksListAdapter(val data: MutableList<Task>,
 
             view.taskProgressView.maxValue = task.subTasks.size
             view.taskProgressView.currentValue = task.progressCount
+
+            view.task_parent_view.setOnLongClickListener {
+                DialogFactory.dialogChoose(view.context, "Действие с задачей", arrayOf("Изменить задачу", "Удалить задачу")) {
+                    when(it) {
+                        //Change task
+                        0 -> {
+                            val dialogView = LayoutInflater.from(view.context).inflate(R.layout.dialog_create_task, null, false)
+                            dialogView.taskNameEditText.setText(task.name)
+                            val dialog = AlertDialog.Builder(view.context)
+                                    .setView(dialogView)
+                                    .setTitle("Изменение задачи")
+                                    .setPositiveButton("Сохранить") { dialog, which ->
+                                        val taskName = dialogView.taskNameEditText.text.toString()
+                                        if (!taskName.isEmpty()) {
+                                            val newTask = Task(taskName, 0, arrayListOf())
+                                            onChangeTask.onChangeTask(newTask, task)
+                                            dialog.dismiss()
+                                        } else {
+                                            StyleableToast.Builder(view.context)
+                                                    .text("Неправильно введено название задачи")
+                                                    .textColor(Color.WHITE)
+                                                    .backgroundColor(ContextCompat.getColor(view.context, R.color.toast_error_color))
+                                                    .cornerRadius(3)
+                                                    .show()
+                                        }
+                                    }
+                                    .setNegativeButton("Отмена") { dialog, which ->
+                                        dialog.dismiss()
+                                    }
+                                    .create()
+
+                            dialog.show()
+                        }
+                        //Delete task
+                        1 -> {
+                            onDeleteTask.onDelete(task, adapterPosition)
+                        }
+                    }
+                }
+                true
+            }
 
 
             refreshTaskLayoutData(task)
@@ -144,11 +188,15 @@ class TasksListAdapter(val data: MutableList<Task>,
     }
 
     interface OnDeleteTask {
-        fun onDelete(task: Task)
+        fun onDelete(task: Task, position: Int)
     }
 
     interface OnAddSubTask {
         fun onClick(task: Task, subTask: SubTask)
+    }
+
+    interface OnChangeTask {
+        fun onChangeTask(newTask: Task, oldTask: Task)
     }
 
 }

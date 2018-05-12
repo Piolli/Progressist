@@ -36,4 +36,8 @@ class TasksListPresenter(override var view: TasksListView,
         tasksListInteractor.setCheckedSubTask(task, subTask, projectKey, isChecked)
     }
 
+    fun updateProject(newTask: Task, oldTask: Task) {
+        tasksListInteractor.updateTask(newTask, oldTask, projectKey)
+    }
+
 }

@@ -24,6 +24,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <nl.dionsegijn.steppertouch.StepperTouch
+        android:visibility="gone"
         android:id="@+id/taskPriority"
         android:layout_width="100dp"
         android:layout_height="40dp"
